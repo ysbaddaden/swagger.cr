@@ -33,12 +33,15 @@ class Swagger
     find?(ref) || raise "No ref found for #{ref}"
   end
 
-  def find?(ref : String, &) : Schema | Parameter | Response | Nil
-    if ref =~ %{^#/(.+?)/(.+?)$}
+  def find?(ref : String) : Schema | Parameter | Response | Nil
+    if ref =~ %r{^#/(.+?)/(.+?)$}
       case $1
-      when "definitions" then definitions[$2]?
-      when "parameters" then parameters[$2]?
-      when "responses" then responses[$2]?
+      when "definitions"
+        definitions[$2]?
+      when "parameters"
+        parameters[$2]?
+      when "responses"
+        responses[$2]?
       end
     end
   end
